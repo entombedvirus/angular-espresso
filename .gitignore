@@ -1,8 +1,5 @@
-.espresso
-.idea
-*.iml
-node_modules
-public/angular
-public/js
-public/styles
-*.js
+.idea/workspace.xml
+node_modules/
+.tmp/
+dist/
+.DS_Store

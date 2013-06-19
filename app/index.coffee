@@ -1,5 +1,5 @@
 ###
-  Module dependencies.
+	Module dependencies.
 ###
 
 config = require "./config"
@@ -10,11 +10,11 @@ routes = require "./routes"
 app = express()
 
 ###
-  Configuration
+	Configuration
 ###
 
 app.configure "development", "testing", "production", ->
-  config.setEnv app.settings.env
+	config.setEnv app.settings.env
 
 app.set "ipaddr", config.HOSTNAME
 app.set "port", config.PORT
@@ -24,10 +24,11 @@ app.use express.bodyParser()
 app.use express.methodOverride()
 app.use app.router
 app.use express.favicon("#{process.cwd()}/#{config.PUBLIC_PATH}/#{config.IMAGES_PATH}/favicon.ico")
-app.use express["static"] path.join process.cwd(), config.PUBLIC_PATH
+console.log "static path", path.join __dirname, '..', config.PUBLIC_PATH
+app.use express["static"] path.join __dirname, '..', config.PUBLIC_PATH
 
 ###
-  Routes config
+	Routes config
 ###
 
 # Views
@@ -40,23 +41,33 @@ app.get "/users", users.list
 app.get "/users/:id", users.get
 
 ###
-  Server startup
+	Server startup
 ###
 
 serverStarted = ->
-  console.log "Server listening on http://#{app.get "ipaddr"}:#{app.get "port"}"
+	console.log "Server listening on http://#{app.get "ipaddr"}:#{app.get "port"}"
 
-server = app.listen app.get('port'), app.get('ipaddr'), serverStarted
+start = ->
+	console.log "Process PID: ", process.pid
+	server = app.listen app.get('port'), app.get('ipaddr'), serverStarted
+
+	###
+		Socket.IO registration and configuration
+	###
+	io = require("socket.io").listen server
+	require("./socket").configure io
+	server
+
+if require.main is module
+	start()
+
+
 
 ###
-  Socket.IO registration and configuration
+	Export app
 ###
 
-io = require("socket.io").listen server
-require("./socket").configure io
+module.exports =
+	app: app
+	start: start
 
-###
-  Export server
-###
-
-module.exports = server

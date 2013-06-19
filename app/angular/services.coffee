@@ -6,7 +6,7 @@
 
 socketServer = document.domain
 
-angular.module("myApp.services", [])
+angular.module("NetTalk.services", [])
 .value("version", "0.2.2")
 .factory("Socket",
   ["$rootScope",

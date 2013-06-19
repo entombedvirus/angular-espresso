@@ -4,7 +4,7 @@
   Filters
 ###
 
-angular.module("myApp.filters", [])
+angular.module("NetTalk.filters", [])
 .filter "title",
   ->
     (user) ->

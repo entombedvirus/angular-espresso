@@ -30,5 +30,15 @@
   },
   "scripts": {
     "start": "node app"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-coffee": "~0.7.0",
+    "matchdep": "~0.1.2",
+    "grunt-contrib-clean": "~0.4.1",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-watch": "~0.4.4",
+    "grunt-concurrent": "~0.3.0",
+    "grunt-nodemon": "0.0.4"
   }
 }

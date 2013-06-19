@@ -9,6 +9,9 @@ AppCtrl = ($scope) ->
 
 AppCtrl.$inject = ["$scope"]
 
+angular.module('NetTalk.controllers').
+	controller 'AppCtrl', AppCtrl
+
 UsersCtrl = ($scope, User) ->
   $scope.loadUsers = ->
     $scope.users = {}
@@ -18,6 +21,9 @@ UsersCtrl = ($scope, User) ->
 
 UsersCtrl.$inject = ["$scope", "User"]
 
+angular.module('NetTalk.controllers').
+	controller 'UsersCtrl', UsersCtrl
+
 UserDetailCtrl = ($scope, $routeParams, User) ->
   $scope.user =
     User.get {userId: $routeParams.userId}
@@ -25,6 +31,9 @@ UserDetailCtrl = ($scope, $routeParams, User) ->
       $scope.user = data.user
 
 UserDetailCtrl.$inject = ["$scope", "$routeParams", "User"]
+
+angular.module('NetTalk.controllers').
+	controller 'UserDetailCtrl', UserDetailCtrl
 
 SocketCtrl = ($scope, Socket) ->
 
@@ -35,3 +44,19 @@ SocketCtrl = ($scope, Socket) ->
     Socket.emit("ping", {})
 
 SocketCtrl.$inject = ["$scope", "Socket"]
+
+angular.module('NetTalk.controllers').
+	controller 'SocketCtrl', SocketCtrl
+
+MapCtrl = ($scope) ->
+	console.log "scope.map", $scope.map
+	$scope.dropMarker = (e) ->
+		console.log "dropMarker", e
+		new google.maps.Marker
+			map: $scope.map
+			position: e.latLng
+
+	$scope.logCenter = ->
+		console.log("map center is now", $scope.map.getCenter().toString())
+
+angular.module('NetTalk.controllers').controller 'MapCtrl', MapCtrl
