@@ -17,14 +17,18 @@ SocketCtrl.$inject = ["$scope", "Socket"]
 angular.module('NetTalk.controllers').controller 'SocketCtrl', SocketCtrl
 
 MapCtrl = ($scope) ->
-	$scope.dropMarker = (e) ->
-		console.log "scope.map", $scope.map
+	$scope.onMapLoad = ->
+		console.log "map loaded"
+		new google.maps.event.addListener $scope.map, "rightclick", dropMarker
+		new google.maps.event.addListener $scope.map, "center_changed", logCenter
+
+	dropMarker = (e) ->
 		console.log "dropMarker", e
 		new google.maps.Marker
 			map: $scope.map
 			position: e.latLng
 
-	$scope.logCenter = ->
+	logCenter = ->
 		console.log("map center is now", $scope.map.getCenter().toString())
 
 MapCtrl.$inject = ['$scope']

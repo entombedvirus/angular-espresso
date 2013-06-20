@@ -26,21 +26,20 @@ app.directive "googleMaps", ->
 			elem.append div
 
 			(scope, elem, attrs) ->
-				lat = attrs.lat
-				lng = attrs.lng
+				parts = attrs.center?.split ','
+				if parts?
+					lat = parseFloat(parts[0])
+					lng = parseFloat(parts[1])
+				else
+					lat = 37.75549928195783
+					lng = -122.45375823974608
 				map = scope[attrs.name]  = new GoogleMaps.Map(
 					div[0]
 				,
 					center: new GoogleMaps.LatLng lat, lng
-					zoom: DEFAULT_ZOOM_LEVEL
+					zoom: (attrs.zoom? && parseInt attrs.zoom) || DEFAULT_ZOOM_LEVEL
 					mapTypeId: GoogleMaps.MapTypeId.ROADMAP
 				)
 
-				if attrs.onEvent?
-					parts = attrs.onEvent.split ':', 2
-					eventName = parts[0]
-					action = parts[1]
-					GoogleMaps.event.addListener map, eventName, (e) ->
-						scope.e = e
-						scope.$eval(action)
+				scope.$eval(attrs.onload) if attrs.onload?
 	}
