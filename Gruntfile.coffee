@@ -67,6 +67,13 @@ module.exports = (grunt) ->
 					ext: '.js'
 				]
 
+		less:
+			all:
+				files: [
+					src: appConfig.root + '/styles/*.less'
+					dest: appConfig.tmp + '/public/styles/style.css'
+				]
+
 		watch:
 			options:
 				nospawn: true
@@ -76,6 +83,9 @@ module.exports = (grunt) ->
 			client:
 				files: [appConfig.app + "/angular/{,*/}*.{coffee,js}"]
 				tasks: ['copy:client', 'coffee:client']
+			css:
+				files: [appConfig.root + "/styles/*.less"]
+				tasks: ['less']
 
 		nodemon:
 			dev:
@@ -91,7 +101,7 @@ module.exports = (grunt) ->
 				options:
 					logConcurrentOutput: true
 
-	grunt.registerTask 'build', ['copy', 'coffee']
+	grunt.registerTask 'build', ['copy', 'coffee', 'less']
 	grunt.registerTask 'dev', ['clean', 'build', 'concurrent:dev']
 
 	grunt.registerTask 'default', ['dev']
