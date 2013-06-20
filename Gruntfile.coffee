@@ -14,6 +14,13 @@ module.exports = (grunt) ->
 
 	grunt.initConfig
 		config: appConfig
+
+		notify:
+			watch:
+				options:
+					title: 'Task Complete!'
+					message: 'auto-compilation complete'
+
 		clean:
 			all:
 				src: [
@@ -85,13 +92,13 @@ module.exports = (grunt) ->
 				nospawn: true
 			server:
 				files: [appConfig.root + "/app/**/*.{coffee,js}", appConfig.root + "/views/**/*.jade", "!**/angular/**"]
-				tasks: ['copy:server', 'coffee:server']
+				tasks: ['copy:server', 'coffee:server', 'notify:watch']
 			client:
 				files: [appConfig.app + "/angular/{,*/}*.{coffee,js}"]
-				tasks: ['copy:client', 'coffee:client']
+				tasks: ['copy:client', 'coffee:client', 'notify:watch']
 			css:
 				files: [appConfig.root + "/styles/*.less"]
-				tasks: ['less']
+				tasks: ['less', 'notify:watch']
 
 		nodemon:
 			dev:
