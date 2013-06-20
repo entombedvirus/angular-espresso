@@ -43,6 +43,12 @@ module.exports = (grunt) ->
 						cwd: appConfig.root
 						src: ['app/**', '!app/angular/**']
 						dest: appConfig.tmp
+					,
+						expand: true
+						dot: true
+						cwd: appConfig.root
+						src: ['views/**']
+						dest: appConfig.tmp
 				]
 
 		coffee:
@@ -78,7 +84,7 @@ module.exports = (grunt) ->
 			options:
 				nospawn: true
 			server:
-				files: [appConfig.app + "/**/*.{coffee,js}", "!**/angular/**"]
+				files: [appConfig.root + "/app/**/*.{coffee,js}", appConfig.root + "/views/**/*.jade", "!**/angular/**"]
 				tasks: ['copy:server', 'coffee:server']
 			client:
 				files: [appConfig.app + "/angular/{,*/}*.{coffee,js}"]
