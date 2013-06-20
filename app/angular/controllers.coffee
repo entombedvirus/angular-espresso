@@ -1,22 +1,19 @@
 "use strict"
 
 ###
-  Controllers
+	Controllers
 ###
 
-SocketCtrl = ($scope, Socket) ->
+app = angular.module('NetTalk.controllers')
 
-  Socket.on "pong", (data) ->
-    $scope.response = data.data
+app.controller 'SocketCtrl', ($scope, Socket) ->
+	Socket.on "pong", (data) ->
+		$scope.response = data.data
 
-  $scope.ping = ->
-    Socket.emit("ping", {})
+	$scope.ping = ->
+		Socket.emit("ping", {})
 
-SocketCtrl.$inject = ["$scope", "Socket"]
-
-angular.module('NetTalk.controllers').controller 'SocketCtrl', SocketCtrl
-
-MapCtrl = ($scope) ->
+app.controller 'MapCtrl', ($scope) ->
 	$scope.onMapLoad = ->
 		console.log "map loaded"
 		new google.maps.event.addListener $scope.map, "rightclick", dropMarker
@@ -31,6 +28,3 @@ MapCtrl = ($scope) ->
 	logCenter = ->
 		console.log("map center is now", $scope.map.getCenter().toString())
 
-MapCtrl.$inject = ['$scope']
-
-angular.module('NetTalk.controllers').controller 'MapCtrl', MapCtrl
